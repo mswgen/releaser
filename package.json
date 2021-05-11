@@ -1,0 +1,35 @@
+{
+  "name": "releaser",
+  "version": "1.0.0",
+  "description": "Team int Releaser",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/team-int/releaser.git"
+  },
+  "keywords": [
+    "releaser"
+  ],
+  "author": "Team int",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/team-int/releaser/issues"
+  },
+  "homepage": "https://github.com/team-int/releaser#readme",
+  "devDependencies": {
+    "@types/node": "^15.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "ascii-table": "^0.0.9",
+    "discord.js": "^12.5.3",
+    "dotenv": "^9.0.2",
+    "octokit": "^1.0.4"
+  }
+}
