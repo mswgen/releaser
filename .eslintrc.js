@@ -12,9 +12,7 @@ module.exports = {
     'ecmaVersion': 12,
     'sourceType': 'module'
   },
-  'plugins': [
-    '@typescript-eslint'
-  ],
+  'plugins': ['@typescript-eslint'],
   'rules': {
     'indent': [
       'error',
