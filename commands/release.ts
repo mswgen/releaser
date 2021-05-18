@@ -56,7 +56,7 @@ export default {
 [${releaseTime.getFullYear()}/${releaseTime.getMonth}/${releaseTime.getDay}] 버전 ${newVer} 릴리즈
 `
       for (let commit of file[interaction.data.options.find(x => x.name == 'repo').value].commits) {
-        changelogmd += `* [${commit.date}] ${commit.type} - ${commit.msg} By ${commit.by}\n`
+        changelogmd += `* [${commit.date}] ${commit.msg}\n  * 타입: ${commit.type}\n  * 적용 범위: ${commit.scope || '전체'}\n  *  커밋한 유저: ${commit.by}\n${commit.breaking ? '  * **주의: 이 커밋에 다른 프로그램의 코드 수정이 필요할 수 있는 큰 변경사항이 있어요**\n' : ''}`
       }
       client.channels.cache.get('806159792686628875').send(`${interaction.data.options.find(x => x.name == 'repo').value} 버전 ${newVer}이 릴리즈되었어요!`, new Discord.MessageAttachment(Buffer.from(changelogmd), 'CHANGELOG.md'))
       file[interaction.data.options.find(x => x.name == 'repo').value].commits = []
