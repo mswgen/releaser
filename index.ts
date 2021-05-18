@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import ascii from 'ascii-table'
 import fs from 'fs'
 import http2 from 'http2'
-import { type } from 'os'
 dotenv.config()
 const table = new ascii().setHeading('Command', 'Load Status')
 const client:Discord.Client = new Discord.Client();
@@ -64,8 +63,8 @@ const server = http2.createSecureServer({
       if (!confFile[parsedPost.repository.name]) return
       for (let commit of parsedPost.commits) {
         let firstLine = commit.message.split('\n')[0]
-        let commitMsg = firstLine.split(':').splice(0, 1).join(':')
         let typeandbreakingandscope = firstLine.split(':')[0]
+        let commitMsg = firstLine.replace(typeandbreakingandscope, '')
         let breaking = false
         let scope = undefined
         let type = undefined
