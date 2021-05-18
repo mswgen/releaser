@@ -5,7 +5,7 @@ export default {
   name: 'register',
   run (client, interaction) {
     if (require('/home/azureuser/releaser/data/repos.json')[interaction.data.options.find(x => x.name == 'repo').value]) {
-      axios.post(`https://discord.com/api/v8/interactions/${interaction.data.id}/${interaction.data.token}/callback`, {
+      axios.post(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
         type: 4,
         data: {
           embeds: [
@@ -26,7 +26,7 @@ export default {
         commits: []
       }
       fs.writeFile('/home/azureuser/releaser/data/repos.json', JSON.stringify(file), err => {
-        axios.post(`https://discord.com/api/v8/interactions/${interaction.data.id}/${interaction.data.token}/callback`, {
+        axios.post(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
           type: 4,
           data: {
             embeds: [

@@ -2,9 +2,9 @@
   "name": "releaser",
   "version": "1.0.0",
   "description": "Team int Releaser",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "tsc && cd dist && node index.js"
+    "start": "rm -rf dist && tsc && node dist/index.js"
   },
   "repository": {
     "type": "git",
