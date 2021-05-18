@@ -45,8 +45,11 @@ export default {
           parsedVer[2] += 1
         } else if (relType == 'minor') {
           parsedVer[1] += 1
+          parsedVer[2] = 0
         } else {
           parsedVer[0] += 1
+          parsedVer[1] = 0
+          parsedVer[2] = 0
         }
         newVer = parsedVer.join('.')
       }
