@@ -56,7 +56,7 @@ const server = http2.createSecureServer({
   })
   req.on('end', () => {
     let parsedPost = JSON.parse(post)
-    console.log(post)
+    console.log(req.headers)
     res.writeHead(200)
     res.end()
     if (req.headers['X-GitHub-Event'] == 'push') {
