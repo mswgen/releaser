@@ -64,7 +64,7 @@ const server = http2.createSecureServer({
       for (let commit of parsedPost.commits) {
         let firstLine = commit.message.split('\n')[0]
         let typeandbreakingandscope = firstLine.split(':')[0]
-        let commitMsg = firstLine.replace(typeandbreakingandscope, '')
+        let commitMsg = firstLine.replace(typeandbreakingandscope, '').replace(': ', '')
         let breaking = false
         let scope = undefined
         let type = undefined
