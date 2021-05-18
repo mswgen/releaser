@@ -59,47 +59,56 @@ const server = http2.createSecureServer({
     console.log(post)
     res.writeHead(200)
     res.end()
-    let confFile = require('/home/azureuser/releaser/data/repos.json')
-    if (!confFile[parsedPost.repository.name]) return
-    for (let commit of parsedPost.commits) {
-      let firstLine = commit.message.split('\n')[0]
-      let commitMsg = firstLine.split(':').splice(0, 1).join(':')
-      let typeandbreakingandscope = firstLine.split(':')[0]
-      let breaking = false
-      let scope = undefined
-      let type = undefined
-      if (typeandbreakingandscope.endsWith('!')) {
-        breaking = true
-        typeandbreakingandscope = typeandbreakingandscope.split('').reverse().join('').replace('!', '').split('').reverse().join('')
+    if (req.headers['X-GitHub-Event'] == 'push') {
+      let confFile = require('/home/azureuser/releaser/data/repos.json')
+      if (!confFile[parsedPost.repository.name]) return
+      for (let commit of parsedPost.commits) {
+        let firstLine = commit.message.split('\n')[0]
+        let commitMsg = firstLine.split(':').splice(0, 1).join(':')
+        let typeandbreakingandscope = firstLine.split(':')[0]
+        let breaking = false
+        let scope = undefined
+        let type = undefined
+        if (typeandbreakingandscope.endsWith('!')) {
+          breaking = true
+          typeandbreakingandscope = typeandbreakingandscope.split('').reverse().join('').replace('!', '').split('').reverse().join('')
+        }
+        if (typeandbreakingandscope.includes('(') && typeandbreakingandscope.includes(')')) {
+          scope = typeandbreakingandscope.split('(').reverse()[0].replace(')', '')
+        }
+        if (typeandbreakingandscope.split('(')[0] == 'style') return
+        const types = {
+          fix: '버그 픽스',
+          feat: '새 기능 추가',
+          refactor: '리팩터링',
+          docs: '문서 수정',
+          perf: '성능 개선',
+          test: '테스트 수트 수정',
+          ci: 'CI 스크립트 수정',
+          chore: '코드와 관련되지 않은 그 외 변경사항',
+          build: '빌드 시스템/패키지 매니저 관련 수정',
+          revert: '커밋 되돌리기'
+        }
+        if (!types[typeandbreakingandscope.split('(')[0]]) return
+        type = types[typeandbreakingandscope.split('(')[0]]
+        let commitObj = {
+          date: `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDay()}`,
+          msg: commitMsg,
+          type,
+          scope,
+          breaking
+        }
+        confFile[parsedPost.repository.name].commits.unshift(commitObj)
       }
-      if (typeandbreakingandscope.includes('(') && typeandbreakingandscope.includes(')')) {
-        scope = typeandbreakingandscope.split('(').reverse()[0].replace(')', '')
+      fs.writeFileSync('/home/azureuser/releaser/data/repos.json', JSON.stringify(confFile))
+    } else if (req.headers['X-GitHub-Event'] == 'repository') {
+      if (parsedPost.action == 'deleted') {
+        let confFile = require('/home/azureuser/releaser/data/repos.json')
+        if (!confFile[parsedPost.repository.name]) return
+        delete confFile[parsedPost.repository.name]
+        fs.writeFileSync('/home/azureuser/releaser/data/repos.json', JSON.stringify(confFile))
       }
-      if (typeandbreakingandscope.split('(')[0] == 'style') return
-      const types = {
-        fix: '버그 픽스',
-        feat: '새 기능 추가',
-        refactor: '리팩터링',
-        docs: '문서 수정',
-        perf: '성능 개선',
-        test: '테스트 수트 수정',
-        ci: 'CI 스크립트 수정',
-        chore: '코드와 관련되지 않은 그 외 변경사항',
-        build: '빌드 시스템/패키지 매니저 관련 수정',
-        revert: '커밋 되돌리기'
-      }
-      if (!types[typeandbreakingandscope.split('(')[0]]) return
-      type = types[typeandbreakingandscope.split('(')[0]]
-      let commitObj = {
-        date: `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDay()}`,
-        msg: commitMsg,
-        type,
-        scope,
-        breaking
-      }
-      confFile[parsedPost.repository.name].commits.unshift(commitObj)
     }
-    fs.writeFileSync('/home/azureuser/releaser/data/repos.json', JSON.stringify(confFile))
   })
 })
 client.login(process.env.TOKEN).catch(console.log)
