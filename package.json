@@ -4,7 +4,7 @@
   "description": "Team int Releaser",
   "main": "index.js",
   "scripts": {
-    "test": "exit 0"
+    "start": "tsc && cd dist && node index.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "ascii-table": "^0.0.9",
+    "axios": "^0.21.1",
     "discord.js": "^12.5.3",
-    "dotenv": "^9.0.2",
-    "octokit": "^1.0.4"
+    "dotenv": "^9.0.2"
   }
 }

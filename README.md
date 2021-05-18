@@ -12,11 +12,11 @@ Track all commits from Team int, and create change log
 
 ## How to use
 
-1. At Team int Discord server, type `r.register <reponame>` to track the repository.
+1. At Team int Discord server, type `/register <reponame>` to track the repository.
 
 2. Commit! All the commits are tracked by github webhook.
 
-3. Type `r.release <reponame> <patch|minor|major>` to generate change log.
+3. Type `/release <reponame> <patch|minor|major>` to generate change log.
 
 ## So, what's patch,major,minor?
 
