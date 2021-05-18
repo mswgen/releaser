@@ -59,7 +59,7 @@ const server = http2.createSecureServer({
     console.log(req.headers)
     res.writeHead(200)
     res.end()
-    if (req.headers['X-GitHub-Event'] == 'push') {
+    if (req.headers['x-github-event'] == 'push') {
       let confFile = require('/home/azureuser/releaser/data/repos.json')
       if (!confFile[parsedPost.repository.name]) return
       for (let commit of parsedPost.commits) {
@@ -101,7 +101,7 @@ const server = http2.createSecureServer({
         confFile[parsedPost.repository.name].commits.unshift(commitObj)
       }
       fs.writeFileSync('/home/azureuser/releaser/data/repos.json', JSON.stringify(confFile))
-    } else if (req.headers['X-GitHub-Event'] == 'repository') {
+    } else if (req.headers['x-github-event'] == 'repository') {
       if (parsedPost.action == 'deleted') {
         let confFile = require('/home/azureuser/releaser/data/repos.json')
         if (!confFile[parsedPost.repository.name]) return
