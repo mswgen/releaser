@@ -95,7 +95,8 @@ const server = http2.createSecureServer({
           msg: commitMsg,
           type,
           scope,
-          breaking
+          breaking,
+          by: commit.author.username
         }
         confFile[parsedPost.repository.name].commits.unshift(commitObj)
       }
