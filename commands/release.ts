@@ -3,7 +3,7 @@ import axios from 'axios'
 import fs from 'fs'
 export default {
   name: 'release',
-  run (client, interaction) {
+  async run (client, interaction) {
     let file = require('/home/azureuser/releaser/data/repos.json')
     if (!file[interaction.data.options.find(x => x.name == 'repo').value]) {
       axios.post(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
