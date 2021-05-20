@@ -21,7 +21,7 @@ export default {
       })
     } else {
       let repos:Array<string> = []
-      let firstRes = await axios.get('https://api.github.com/orgs/79496277/repos?per_page=100&page=1', {
+      let firstRes = await axios.get('https://api.github.com/organizations/79496277/repos?per_page=100&page=1', {
         headers: {
           Authorization: `token ${process.env.GITHUB_TOKEN}`
         }
@@ -31,7 +31,7 @@ export default {
       }
       if (firstRes.headers.link) {
         for (let i = 2; i <= parseInt(firstRes.headers.link.split(', ').reverse()[0].replace('>; rel="last"', '').replace('<https://api.github.com/organizations/79496277/repos?page=', '')); i++) {
-          let anotherRes = await axios.get(`https://api.github.com/orgs/79496277/repos?per_page=100&page=${i}`, {
+          let anotherRes = await axios.get(`https://api.github.com/organizations/79496277/repos?per_page=100&page=${i}`, {
             headers: {
               Authorization: `token ${process.env.GITHUB_TOKEN}`
             }
