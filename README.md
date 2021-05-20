@@ -1,6 +1,6 @@
-# releaser
+# Releaser
 
-Tracks all commits from Team int, and create change log
+Tracks all commits from Team int, and creates a change log
 
 ## Limits
 
